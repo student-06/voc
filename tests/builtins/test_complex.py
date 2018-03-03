@@ -9,5 +9,4 @@ class BuiltinComplexFunctionTests(BuiltinFunctionTestCase, TranspileTestCase):
     functions = ["complex"]
 
     not_implemented = [
-        'test_complex',
     ]
