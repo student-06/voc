@@ -23,6 +23,9 @@ public class Complex extends org.python.types.Object {
     }
 
     public int hashCode() {
+        // 0xf4243 is _PyHASH_MULTIPLIER macro defined in Cpython's Include/pyhash.h.
+        // Its just a prime number (happens to be multiplier) used in hashing.
+        // https://computinglife.wordpress.com/2008/11/20/why-do-hash-functions-use-prime-numbers/
         return this.real.hashCode() + 0xf4243 * this.imag.hashCode();
     }
 
@@ -163,7 +166,11 @@ public class Complex extends org.python.types.Object {
     )
     public org.python.Object __repr__() {
         if (this.real.value != 0.0 || this.real.isNegativeZero()) {
-            return new org.python.types.Str("(" + partToStr(this.real) + ((this.imag.value >= 0.0 && !this.imag.isNegativeZero()) ? "+" : "-") + partToStr(new org.python.types.Float(Math.abs(this.imag.value))) + "j)");
+            java.lang.String tempstr = new String("-");
+            if (this.imag.value >= 0.0 && !this.imag.isNegativeZero()){
+                tempstr = "+";
+            }
+            return new org.python.types.Str("(" + partToStr(this.real) + tempstr + partToStr(new org.python.types.Float(Math.abs(this.imag.value))) + "j)");
         } else {
             return new org.python.types.Str(partToStr(this.imag) + "j");
         }
